@@ -1,0 +1,92 @@
+@import url('@livechat/design-system/dist/design-system.css');
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.full-screen-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.view-container {
+  padding: 16px;
+}
+
+.agents-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.app-statement {
+  height: 24px;
+  display: block;
+
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #424d57;
+}
+
+.app-description {
+  margin-top: 15px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 22px;
+
+  color: #424d57;
+}
+
+.app-description > ul {
+  list-style-type: none;
+  padding: 0;
+  height: 22px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 22px;
+
+  color: #424d57;
+}
+
+.app-description > ul > li {
+  margin: 5px 0;
+}
+
+.app-description > ul > li > svg {
+  position: relative;
+  top: 2px;
+}
+
+.app-description > ul > li > a {
+  margin-left: 4px;
+  color: #4284f5;
+  text-decoration: none;
+}
+
+h2 {
+  height: 40px;
+  margin: 15px 0;
+
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 40px;
+
+  color: #424d57;
+}
