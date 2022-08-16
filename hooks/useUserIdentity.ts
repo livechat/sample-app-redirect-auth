@@ -17,77 +17,55 @@ const accountsSDK = new AccountsSDK({
   server_url: Config.lcAccountsURL,
 })
 
+const TOKEN_KEY = 'access_token'
+
 function useUserIdentity() {
   const [userIdentity, setUserIdentity] = useState<UserIdentity | null>(null)
-  const [loading, setLoading] = useState<boolean>(false)
-  const { asPath, replace } = useRouter()
+  const { replace, asPath } = useRouter()
 
   useEffect(() => {
-    let identity: UserIdentity = {
-      account_id: '',
-      access_token: '',
-      expires_in: 0,
-      organization_id: '',
-      scope: '',
-      token_type: 'Bearer',
-    }
-
-    if (asPath !== '' && asPath !== '/') {
-      asPath
-        .replace('/#', '')
-        .split('&')
-        .forEach((item) => {
-          const key = item.split('=')[0]
-          const value = item.split('=')[1]
-
-          switch (key) {
-            case 'access_token':
-              identity.access_token = value
-              break
-            case 'expires_in':
-              identity.expires_in = parseInt(value)
-              break
-            case 'scope':
-              identity.scope = value
-              break
-            default:
-              break
-          }
-        })
-
-      setUserIdentity(identity)
+    if (asPath.includes(TOKEN_KEY)) {
+      authorize()
     }
   }, [asPath])
 
-  const authorize = () => {
+  const authorize = async () => {
     try {
-      setLoading(true)
-      accountsSDK.redirect().authorize()
+      const authorizeData = await accountsSDK.redirect().authorizeData()
 
-      setLoading(false)
+      accountsSDK.verify(authorizeData)
+      setUserIdentity(authorizeData)
     } catch (error) {
+      if (error.identity_exception === 'unauthorized') {
+        await accountsSDK.redirect().authorize()
+      }
+
       console.error(error)
     }
   }
 
-  const logout = () => {
+  const logout = async () => {
     if (userIdentity) {
-      fetch(`${Config.lcAccountsURL}/v2/sessions`, {
-        method: 'DELETE',
-        body: '{}',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${userIdentity.token_type} ${userIdentity.access_token}`,
-        },
-      }).then((response) => {
-        setUserIdentity(null)
+      try {
+        const response = await fetch(`${Config.lcAccountsURL}/v2/sessions`, {
+          method: 'DELETE',
+          body: '{}',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${userIdentity.token_type} ${userIdentity.access_token}`,
+          },
+        })
+
         replace('/', undefined, { shallow: true })
+        setUserIdentity(null)
         return response.json()
-      })
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 
-  return { userIdentity, authorize, logout, loading }
+  return { userIdentity, authorize, logout }
 }
 
 export default useUserIdentity

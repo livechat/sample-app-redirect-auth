@@ -4,7 +4,7 @@
   "install": true,
   "baseURL": "<your-https-domain-from-ngrok>",
   "auth": {
-    "clientId": "9b2b505ddadd345d68fba85c92ee2d3b",
+    "clientId": "<your-client-id-from-dev-console>",
     "clientType": "javascript_app",
     "scopes": ["agents--all:ro", "sessions-my:rw"],
     "redirectURI": ["%baseURL%"]

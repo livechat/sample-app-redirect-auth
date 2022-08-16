@@ -1,15 +1,10 @@
 import { Button } from '@livechat/design-system'
 import ViewContainer from 'components/ViewContainer'
-import FullScreenLoader from 'components/FullScreenLoader'
 import AppInfo from 'components/AppInfo'
 import useUserIdentity from 'hooks/useUserIdentity'
 
 function Index() {
-  const { loading, logout, authorize, userIdentity } = useUserIdentity()
-
-  if (loading) {
-    return <FullScreenLoader />
-  }
+  const { logout, authorize, userIdentity } = useUserIdentity()
 
   return (
     <ViewContainer>
