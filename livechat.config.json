@@ -1,0 +1,34 @@
+{
+  "appId": "h0rp5lz4R",
+  "name": "Template App",
+  "install": true,
+  "baseURL": "<your-https-domain-from-ngrok>",
+  "auth": {
+    "clientId": "<your-client-id-from-dev-console>",
+    "clientType": "javascript_app",
+    "scopes": ["agents--all:ro", "sessions-my:rw"],
+    "redirectURI": ["%baseURL%"]
+  },
+  "widget": [
+    {
+      "url": "%baseURL%/chat-details",
+      "placement": "plugin"
+    },
+    {
+      "url": "%baseURL%/fullscreen",
+      "placement": "fullscreen"
+    },
+    {
+      "url": "%baseURL%/message-box",
+      "placement": "messagebox"
+    }
+  ],
+  "appWebhooks": {
+    "url": "%baseURL%/api/app-webhook"
+  },
+  "chatActions": {
+    "url": "%baseURL%/api/chat-action",
+    "label": "Template app action",
+    "action": "sendWebhook"
+  }
+}
